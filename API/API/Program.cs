@@ -59,6 +59,17 @@ app.MapGet("/listar/imcs", ([FromServices] AppDataContext ctx) =>
     return Results.Ok(imcs);
 });
 
+app.MapGet("/listar/imcs/{alunoId}", ([FromServices] AppDataContext ctx, [FromRoute] int alunoId) =>
+{
+    var imcs = ctx.Imcs.Where(i => i.AlunoId == alunoId).ToList(); 
+    if (!imcs.Any())
+    {
+        return Results.NotFound($"Nenhum IMC encontrado para o aluno com ID {alunoId}.");
+    }
+    return Results.Ok(imcs); 
+});
+
+
 app.UseCors("Acesso Total");
 
 app.Run();
