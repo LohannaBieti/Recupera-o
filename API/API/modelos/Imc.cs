@@ -9,5 +9,5 @@ namespace API.modelos;
     public float Altura { get; set; }
     public float ValorImc { get; set; }
     public int AlunoId { get; set; } 
-    public Aluno Aluno { get; set; } 
+    public Aluno? Aluno { get; set; } 
 }

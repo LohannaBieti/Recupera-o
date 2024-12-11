@@ -17,3 +17,5 @@ Content-Type: application/json
     "altura": 1.75,
     "alunoId": 1  
 }
+###Listar Imc
+GET http://localhost:5022/listar/imc
