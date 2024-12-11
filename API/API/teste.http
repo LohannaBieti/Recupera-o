@@ -8,3 +8,14 @@ Content-Type: application/json
 }
 
 ##ENDPOIT IMC
+
+###Cadastrar um Imc
+POST http://localhost:5022/cadastrar/imc
+Content-Type: application/json
+
+{
+    "nome" : "nike",
+    "altura" : 2,
+    "preco" : 200.25,
+    "categoriaId" : 1
+}
