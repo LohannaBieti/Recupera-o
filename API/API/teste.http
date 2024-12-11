@@ -1,0 +1,10 @@
+### Cadastrar um aluno
+POST http://localhost:5022/aluno/cadastrar
+Content-Type: application/json
+
+{
+    "nome": "Maria",
+    "sobrenome": "Almeida"
+}
+
+##ENDPOIT IMC
