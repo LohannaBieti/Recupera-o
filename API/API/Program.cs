@@ -17,43 +17,46 @@ var app = builder.Build();
 
 app.MapGet("/", () => "Recuperação!");
 
-app.MapPost("/cadastrar/aluno" , ([FromBody] Aluno aluno, [FromServices] AppDataContext ctx) =>
+app.MapPost("/cadastrar/aluno", ([FromBody] Aluno aluno, [FromServices] AppDataContext ctx) =>
 {
-    ctx.Alunos?.Add(aluno);
+    ctx.Alunos.Add(aluno);
     ctx.SaveChanges();
-    return Results.Created("", aluno);
+    return Results.Created("/cadastrar/aluno", aluno); 
 });
 
-app.MapPost("/cadastrar/imc" , ([FromBody] Imc imc, [FromServices] AppDataContext ctx) =>
+app.MapPost("/cadastrar/imc", ([FromBody] Imc imc, [FromServices] AppDataContext ctx) =>
 {
-    var Aluno = ctx.Alunos?.Find(imc.AlunoId);
-    if(Aluno == null){
-        return Results.NotFound();
-    }
-
-    ctx.Imc?.Add(imc);
-    imc.Aluno = Aluno;
-    ctx.SaveChanges();
-    return Results.Created("", imc);
-});
-
-app.MapPut("/imc/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRoute] string id) =>
-{
-    Imc? imc = ctx.Imcs.Find(id);
-    if (imc is null)
+    var aluno = ctx.Alunos.Find(imc.AlunoId);
+    if (aluno == null)
     {
-        return Results.NotFound(" não encontrada");
+        return Results.NotFound("Aluno não encontrado.");
     }
 
+    ctx.Imcs.Add(imc);
+    imc.Aluno = aluno; 
+    ctx.SaveChanges();
+    return Results.Created("/cadastrar/imc", imc); 
+});
+
+app.MapPut("/imc/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRoute] string id, [FromBody] Imc imcAlterado) =>
+{
+    var imc = ctx.Imcs.Find(id);
+    if (imc == null)
+    {
+        return Results.NotFound("IMC não encontrado.");
+    }
+
+    imc.Peso = imcAlterado.Peso;
+    imc.Altura = imcAlterado.Altura;
     ctx.Imcs.Update(imc);
     ctx.SaveChanges();
-    return Results.Ok(ctx.Imcs.ToList());
+    return Results.Ok(imc); 
 });
 
-
-app.MapGet("/listar/imcs", ([FromServices] AppDataContext ctx) => 
+app.MapGet("/listar/imcs", ([FromServices] AppDataContext ctx) =>
 {
-    return Results.Ok(ctx.Imcs?.ToList());
+    var imcs = ctx.Imcs.ToList();
+    return Results.Ok(imcs);
 });
 
 app.UseCors("Acesso Total");
