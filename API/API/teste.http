@@ -9,7 +9,7 @@ Content-Type: application/json
 
 ##ENDPOIT IMC
 ###Cadastrar um Imc
-POST http://localhost:5022/cadastrar/imc
+POST http://localhost:5022/cadastrar/imcs
 Content-Type: application/json
 
 {
@@ -18,4 +18,14 @@ Content-Type: application/json
     "alunoId": 1  
 }
 ###Listar Imc
-GET http://localhost:5022/listar/imc
+GET http://localhost:5022/listar/imcs/1
+
+PUT http://localhost:5022/imc/alterar/1
+Content-Type: application/json
+{
+    "peso": 75,
+    "altura": 1.80
+}
+
+GET http://localhost:5022/listar/imcs
+
